@@ -1,17 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styles from './Canvas.module.css';
-const PIXEL_SIZE = 50;
-const GRID_SIZE = 10;
+const PIXEL_SIZE = 30;
+const GRID_SIZE = 20;
 const grid: unknown[] = [];
 let canvas;
 let ctx;
+let fullHeight;
+let fullWidth;
 for (let i = 0; i < GRID_SIZE; i++) {
-  //   grid.push(new Array(GRID_SIZE).fill(0));
   grid.push(Array.from({ length: GRID_SIZE }).fill(0));
 }
 const Canvas = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isGrid, setIsGrid] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -19,6 +21,10 @@ const Canvas = () => {
     //@ts-ignore
     ctx = canvas.getContext('2d');
     drawGrid();
+    fullHeight = document.body.scrollHeight;
+    fullWidth = document.body.scrollWidth;
+    console.log({ fullHeight, fullWidth });
+    setLoaded(true);
   }, []);
 
   const drawGrid = () => {
